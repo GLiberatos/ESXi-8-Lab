@@ -134,32 +134,31 @@ vmware01 > Manage > Services
 
 The start/stop actions appeared in the bottom Recent Tasks pane.
 
-After checking:
+The historical service action records were found under the ESXi host monitoring view:
 
 ```text
-vmware01 > Monitor > Tasks
-vmware01 > Monitor > Events
+vmware01 > Monitor
 ```
 
-no historical entries for the TSM-SSH start/stop actions were visible during this lab check.
+This confirmed that host-level service actions should be reviewed from the host monitoring view, not from the VM monitoring view.
 
 ## Observed Behavior
 
-| Area Checked            | Result                                              |
-| ----------------------- | --------------------------------------------------- |
-| Recent Tasks            | TSM-SSH start/stop actions were visible immediately |
-| Host > Monitor > Tasks  | No visible historical TSM-SSH start/stop entries    |
-| Host > Monitor > Events | No visible historical TSM-SSH start/stop entries    |
+| Area Checked   | Result                                              |
+| -------------- | --------------------------------------------------- |
+| Recent Tasks   | TSM-SSH start/stop actions were visible immediately |
+| Host > Monitor | TSM-SSH start/stop history was visible              |
+| VM > Monitor   | Not the correct place for host service actions      |
 
 ## Operational Notes
 
 - Recent Tasks is useful for immediate confirmation after a service action.
-- In this lab, the TSM-SSH start/stop action was not visible later in Host Monitor Tasks or Events.
-- Not every action shown in Recent Tasks was visible later in the Host Client historical task/event views.
-- SSH should normally remain stopped unless needed.
-- If deeper troubleshooting is required later, ESXi logs may need to be reviewed.
-- No host services were restarted except for the temporary TSM-SSH start/stop test.
+- Host-level actions, such as starting or stopping ESXi services, belong under the ESXi host monitoring view.
+- VM-level actions, such as powering on a VM or changing VM hardware, belong under the VM monitoring view.
+- The earlier confusion came from checking `fedora01 > Monitor` instead of `vmware01 > Monitor`.
+- SSH should normally remain stopped unless needed for a planned administrative or troubleshooting task.
 - No changes were made to `hostd` or `vpxa`.
+- No Active Directory integration was enabled during this section.
 
 ## Current State
 
